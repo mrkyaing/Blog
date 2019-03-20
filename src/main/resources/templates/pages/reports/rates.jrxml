@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rates-template" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3737c8f8-35e7-4ea0-bf9f-c557f6bbbdf3">
+	<field name="currencyPair" class="java.lang.String"/>
+	<field name="date" class="java.util.Date"/>
+	<field name="askPrice" class="java.math.BigDecimal"/>
+	<field name="bidPrice" class="java.math.BigDecimal"/>
+	<columnHeader>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="0" width="120" height="50" uuid="339d9641-d9de-4450-ae4a-e909938434f6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Currency Pair]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="0" width="120" height="50" uuid="6450a142-6358-4977-a539-96521c792066"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="0" width="120" height="50" uuid="8f92b36a-96b4-4877-97e0-37e7ae111879"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ask Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="0" width="120" height="50" uuid="28abbf73-0bf0-4817-aca0-8dabcca1166a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bid Price]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<textField>
+				<reportElement x="0" y="0" width="120" height="25" uuid="b3a721d2-41e4-4702-be8f-6b94ff0f1b9b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{currencyPair}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="120" y="0" width="120" height="25" uuid="ef818b03-036f-4b45-a5ec-deca4d58d83b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="240" y="0" width="120" height="25" uuid="5491f0c1-2f4a-4893-8c3f-3402a321305b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{askPrice}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="360" y="0" width="120" height="25" uuid="292f7413-7f43-40cd-9b0e-6e9531d8a500"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bidPrice}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+    <title>prodev</title>
+
+ <!--  <link href="/summernote/bootstrap.css" rel="stylesheet">
+  <script src="/summernote/jquery.js"></script> 
+      <link href="/css/font-awesome.min.css" rel="stylesheet">
+  <script src="/summernote/bootstrap.js"></script> 
+  <link href="/summernote/summernote.css" rel="stylesheet">
+  <script src="/summernote/summernote.js"></script> -->
+  
+     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
+  
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote();
+    });
+  </script>
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <h2>post Details</h2>
+    <div>
+        <form class="form-horizontal" th:object="${post}" th:action="@{/post/entry}" method="post" modelAttribute="post" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:field="*{version}"/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Title:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{Title}" required="true"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Brief Description::</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" th:field="*{BriefDescription}" required="true"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Body:</label>
+                <div class="col-sm-10">
+                    <textarea  id="summernote" class="form-control" th:field="*{Body}" required="true"rows="10" cols="20"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">post Image:</label>
+                <div class="col-sm-10">
+                   <!--  <input type="text" class="form-control" th:field="*{imageUrl}" required="true"/> -->
+					<input type="file" class="form-control" id="uploadfile" placeholder="Upload File"  name="uploadfile"></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Category</label>
+                <div class="col-sm-10">
+                <select class="form-control" th:field="*{categoryId}">
+                    <option th:each="c:${categorydata}"
+                            th:value="${c.Id}"
+                            th:text="${c.Description}"></option>
+                </select>
+                   </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

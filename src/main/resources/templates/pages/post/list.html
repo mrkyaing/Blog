@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title>ProDev</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <a href="/post/mostPopularposts">Get mostPopularposts</a>
+    <div th:if="${not #lists.isEmpty(posts)}">
+        <h2>Post List</h2>
+          <a href="#" th:href="@{/post/entry}">Create Post</a>
+        <table class="table table-striped">
+            <tr>
+                <th>Title</th>
+                <th>Body</th>
+                <th>image</th>
+                <th>View</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="post:${posts}">
+                <td th:text="${post.title}">title</td>
+                <td th:text="${post.body}">body</td>
+                 <td th:text="${post.imageUrl}">imageUrl</td>
+                <td><a th:href="${'/post/' + post.id}">View</a></td>
+                <td><a th:href="${'/post/edit/' + post.id}">Edit</a></td>
+                <td><a th:href="${'/post/delete/' + post.id}">Delete</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

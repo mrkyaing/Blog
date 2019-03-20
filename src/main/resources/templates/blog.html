@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+<style>
+.pagination-centered {
+    text-align: center;
+}
+ 
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+ 
+.pointer-disabled {
+    pointer-events: none;
+}
+</style>
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Blog - prodev</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/vendor.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+    <!-- script
+    ================================================== -->
+    <script src="/js/modernizr.js"></script>
+    <script src="/js/pace.min.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+
+<body id="top">
+
+    <div id="preloader">
+        <div id="loader"></div>
+    </div>
+
+
+    <!-- header 
+    ================================================== -->
+    <header class="s-header s-header--blog">
+
+        <div class="header-logo">
+            <a class="site-logo" th:href="@{/}">
+              <!--   <img src="images/logo.svg" alt="Home page"> -->
+               <font color="white" font-family="Segoe UI Symbol"><b>ProDev IT Solutions</b></font> 
+            </a>
+        </div>
+
+        <nav class="row header-nav-wrap wide">
+            <ul class="header-main-nav">
+                <li><a th:href="@{/}" title="intro">Home</a></li>
+                <li class="current"><a th:href="@{/blog}" title="blog">Blog</a></li>	
+            </ul>
+
+           	<ul class="header-social">
+                    <li><a href="https://www.facebook.com/akog02" target="_blank"><i class="fab fa-facebook-f" aria-hidden="true" ></i></a></li>
+                    <li><a href="https://twitter.com/MgKyaingMinSoe" target="_blank"><i class="fab fa-twitter" aria-hidden="true" ></i></a></li>
+                    <li><a href="https://plus.google.com/u/0/+MaungKyaing" target="_blank"><i class="fab fa-google-plus" aria-hidden="true" ></i></a></li>
+					 <li><a href="https://www.linkedin.com/in/mg-kyaing/" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                     <li><a href="https://github.com/MgKyiang" target="_blank"><i class="fab fa-github" aria-hidden="true"></i></a></li>                
+                </ul>       
+        </nav>
+        <a class="header-menu-toggle" href="#"><span>Menu</span></a> 
+    </header> <!-- end header -->
+
+    <!-- page header
+    ================================================== -->
+    <section class="page-header">
+
+        <div class="row page-header__content narrower text-center">
+            <div class="col-full">
+
+                <h3 class="subhead">Our Blog</h3>
+                <h1 class="display-1">
+                    Thoughts, Ideas, Insights and Other Stuff.
+                </h1>
+
+                <a href="#0" class="page-header__search-trigger">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <span>Search the blog</span>
+                </a>
+                <div class="page-header__search">
+                    <form role="search" method="get" class="page-header__search-form" action="#">
+                        <label>
+                            <span class="hide-content">Search for:</span>
+                            <input type="search" class="search-field" placeholder="Type Keywords" value="" name="s" title="Search for:" autocomplete="off">
+                        </label>
+                        <input type="submit" class="search-submit" value="Search">
+                    </form>
+        
+                    <a href="#0" title="Close Search" class="page-header__overlay-close">Close</a>
+                </div>  <!-- end page-header__search -->
+
+            </div>
+        </div>
+
+    </section> <!-- end page-header -->
+
+    <!-- blog content wrap
+    ================================================== -->
+    <section class="blog-content-wrap">
+        <div class="row entries-wrap add-top-padding">
+       
+         <p class="blog-content__tags">
+		                        <span>Article Tags</span>	    
+		                        <span class="blog-content__tag-list" th:each="c:${category}">
+		                            <a th:href="${'/blogbycategory/' +c.id}" th:text="${c.Description}">blog category here</a>		                          
+		                        </span>  
+		   </p>
+	
+        <!-- get the post data from the db. -->
+            <div class="entries" th:if="${not #lists.isEmpty(posts)}">
+ 			
+                <article class="col-block" th:each="post:${posts}">
+                    
+                    <div class="item-entry" data-aos="fade-up">
+                        <div class="item-entry__thumb">
+                            <a th:href="${'/blogdetail/' + post.id}" class="item-entry__thumb-link">
+                                <img th:src="@{'/blogimages/' + ${post.imageUrl}}" alt="blog image here.">
+                            </a>
+                        </div>        
+                        <div class="item-entry__text">
+                            <div class="item-entry__cat">
+                                <a href="#0" th:text="${post.Category.Description}">Category is here.</a> 
+                            </div>
+    
+                            <h1 class="item-entry__title">
+                            <a th:href="${'/blogdetail/' + post.id}" th:text="${post.title}"></a></h1>
+                                
+                            <div class="item-entry__content">
+                                <p th:text="${post.BriefDescription}"></p>
+                                <a th:href="${'/blogdetail/' + post.id}">[Continue Reading +++]</a>
+                            </div>
+                        </div>
+                    </div> <!-- item-entry -->
+                </article> <!-- end article -->
+            </div> <!-- end entries -->
+        </div> <!-- end entries-wrap -->
+
+        <div class="row pagination-wrap">
+        
+            <div class="col-full" th:if="${posts.totalPages != 1}">
+                <nav class="pgn" data-aos="fade-up">
+                    <ul>
+                        <li th:class="${posts.number == 0} ? disabled"><a
+                          class="pgn__prev"
+                            th:href="@{/blog/(pageSize=${selectedPageSize}, page=1)}">prev</a>
+                        </li>
+                        <li th:class="${posts.number == 0} ? disabled"><a
+                            class="pageLink"
+                            th:href="@{/blog/(pageSize=${selectedPageSize}, page=${posts.number})}">«</a>
+                        </li>
+                        <li
+                            th:class="${posts.number == (page - 1)} ? 'active pointer-disabled'"
+                            th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                            <a class="pgn__num"
+                            th:href="@{/blog/(pageSize=${selectedPageSize}, page=${page})}"
+                            th:text="${page}"></a>
+                        </li>
+                        <li
+                            th:class="${posts.number + 1 ==posts.totalPages} ? disabled">
+                            <a class="pageLink"
+                            th:href="@{/blog/(pageSize=${selectedPageSize}, page=${posts.number + 2})}">»</a>
+                        </li>
+                        <li
+                            th:class="${posts.number + 1 ==posts.totalPages} ? disabled">
+                            <a class="pgn__next"
+                            th:href="@{/blog/(pageSize=${selectedPageSize}, page=${posts.totalPages})}">next</a>
+                        </li>
+                    </ul>
+                    </nav>
+                </div> 
+        
+            <!-- <div class="col-full" th:if="${posts.totalPages != 1}">
+                <nav class="pgn" data-aos="fade-up">
+                    <ul>
+                        <li th:class="${posts.number == 0} ? disabled"><a class="pgn__prev" href="#0" th:href="@{/blog/(pageSize=${selectedPageSize}, page=1)}">Prev</a></li>
+                        <li th:class="${posts.number == 0} ? disabled"><a class="pgn__num" href="#0" th:href="@{/blog/(pageSize=${selectedPageSize}, page=${posts.number})}">1</a></li>
+                        <li th:class="${posts.number == (page - 1)} ? 'active pointer-disabled'"
+                            th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}"><span class="pgn__num current">2</span>
+                            <a class="pageLink"
+                            th:href="@{/blog/(pageSize=${selectedPageSize}, page=${page})}"
+                            th:text="${page}"></a>
+                            </li>
+                        <li th:class="${posts.number + 1 ==posts.totalPages} ? disabled"><a class="pgn__num" href="#0" th:href="@{/blog/(pageSize=${selectedPageSize}, page=${posts.number + 2})}">3</a></li>
+                        <li th:class="${posts.number + 1 ==posts.totalPages} ? disabled"><a class="pgn__next" href="#0"  th:href="@{/blog/(pageSize=${selectedPageSize}, page=${posts.totalPages})}">Next</a></li>
+                    </ul>
+                </nav>
+            </div> -->
+                   
+        </div>
+    </section> <!-- end blog content wrap -->
+
+    <!-- footer
+    ================================================== -->
+    <footer class="s-footer footer">
+
+        <div class="row footer__top">
+            <div class="col-six md-full">
+                <h1 class="display-2">
+                    Let's Stay In Touch.
+                </h1>
+                <p class="lead">
+                    Subscribe for updates, special offers and more.
+                </p>
+            </div>
+            <div class="col-six md-full footer__subscribe end">
+                <div class="subscribe-form">
+                    <form id="mc-form" class="group" novalidate="true">
+
+                        <input type="email" value="" name="EMAIL" class="email" id="mc-email" placeholder="Email Address" required="true">
+            
+                        <input type="submit" name="subscribe" value="Sign Up">
+            
+                        <label for="mc-email" class="subscribe-message"></label>
+            
+                    </form>
+                </div>
+            </div>
+        </div> <!-- end footer__top -->
+
+        <div class="row footer__bottom">
+            <div class="col-five tab-full">
+                <div class="footer__logo">
+                    <a th:href="@{/}">
+                      <!--   <img src="images/logo.svg" alt="Homepage"> -->
+                       <font color="white" font-family="Segoe UI Symbol"><b>ProDev IT Solutions</b></font> 
+                    </a>
+                </div>
+                
+              <blockquote>
+                <p style="color:white">
+              Believe nothing, no matter where you read it or who say it, unless it agrees with your own reason and common sense(Buddha).
+             </p>
+             </blockquote>
+             
+                <ul class="footer__social">
+                    <li><a href="https://www.facebook.com/akog02" target="_blank"><i class="fab fa-facebook-f" aria-hidden="true" ></i></a></li>
+                    <li><a href="https://twitter.com/MgKyaingMinSoe" target="_blank"><i class="fab fa-twitter" aria-hidden="true" ></i></a></li>
+                    <li><a href="https://plus.google.com/u/0/+MaungKyaing" target="_blank"><i class="fab fa-google-plus" aria-hidden="true" ></i></a></li>
+					 <li><a href="https://www.linkedin.com/in/mg-kyaing/" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                     <li><a href="https://github.com/MgKyiang" target="_blank"><i class="fab fa-github" aria-hidden="true"></i></a></li>                
+                </ul>
+            </div>
+
+            <div class="col-six tab-full end">
+                <ul class="footer__site-links">
+                    <li><a class="smoothscroll" th:href="@{/blog/#home}"  title="intro">What's ProDev?</a></li>
+                    <li><a class="smoothscroll" th:href="@{/blog/#about}"  title="Who'm I?">Who'm I?</a></li>
+                    <li><a class="smoothscroll" th:href="@{/blog/#features}" title="features">Features</a></li>
+                    <li><a class="smoothscroll" th:href="@{/blog/#pricing}" title="pricing">Pricing</a></li>                  
+                    <li><a th:href="@{/blog}" title="blog">Blog</a></li>	
+                </ul>
+
+                <p class="footer__contact">
+                    Do you have a question? Send us a word: <br>
+                    <a href="mailto:#0" class="footer__mail-link">akog02@gmail.com</a>
+                </p>
+
+                <div class="cl-copyright">
+                    <span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+</span>
+                </div>
+            </div>
+
+        </div> <!-- end footer__bottom -->
+
+        <div class="go-top">
+            <a class="smoothscroll" title="Back to Top" href="#top"></a>
+        </div>
+
+    </footer> <!-- end s-footer -->
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/main.js"></script>
+</body>

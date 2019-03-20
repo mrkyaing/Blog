@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>BlogDetail - ProDev</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/vendor.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+    <!-- script
+    ================================================== -->
+    <script src="/js/modernizr.js"></script>
+    <script src="/js/pace.min.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+
+<body id="top">
+    <div id="preloader">
+        <div id="loader"></div>
+    </div>
+
+
+    <!-- header 
+    ================================================== -->
+    <header class="s-header">
+
+        <div class="header-logo">
+            <a class="site-logo" th:href="@{/}">
+               <!--  <img src="images/logo.svg" alt="Homepage"> -->
+                <font color="white" font-family="Segoe UI Symbol"><b>ProDev IT Solutions</b></font> 
+            </a>
+        </div>
+
+        <nav class="row header-nav-wrap wide">
+            <ul class="header-main-nav">
+                <li><a th:href="@{/}" title="intro">Home</a></li>
+                <li class="current"><a th:href="@{/blog}" title="blog">Blog</a></li>	
+            </ul>
+
+            	<ul class="header-social">
+                    <li><a href="https://www.facebook.com/akog02" target="_blank"><i class="fab fa-facebook-f" aria-hidden="true" ></i></a></li>
+                    <li><a href="https://twitter.com/MgKyaingMinSoe" target="_blank"><i class="fab fa-twitter" aria-hidden="true" ></i></a></li>
+                    <li><a href="https://plus.google.com/u/0/+MaungKyaing" target="_blank"><i class="fab fa-google-plus" aria-hidden="true" ></i></a></li>
+					 <li><a href="https://www.linkedin.com/in/mg-kyaing/" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                     <li><a href="https://github.com/MgKyiang" target="_blank"><i class="fab fa-github" aria-hidden="true"></i></a></li>                
+                </ul>       
+        </nav>
+        <a class="header-menu-toggle" href="#"><span>Menu</span></a>   
+    </header> <!-- end header -->
+    
+    <!-- article
+    ================================================== -->
+    <article class="blog-single" th:each="post:${post}">
+        <!-- page header
+        ================================================== -->
+        <div class="page-header page-header--single">
+
+            <div class="row page-header__content">
+                <div class="col-full">
+
+                    <h1 class="display-1" th:text="${post.title}">
+                        post title 
+                    </h1>
+                    <ul class="page-header__meta">
+                        <li class="author">Author: <a href="#0">Mg Kyaing(#akog02)</a></li>
+                        <li class="date" th:text="${post.CreatedDate}">January,21, 2019</li>
+                        <li class="cat-links">
+                            Category:<a href="#0" th:text="${post.Category.Description}"></a>
+                        </li>
+                    </ul>                
+                </div>
+            </div>
+        </div> <!-- end page-header -->
+
+
+        <!-- blog content
+        ================================================== -->
+        <div class="blog-content-wrap">
+
+            <div class="row blog-content">
+                <div class="col-full blog-content__main">
+    
+                    <p class="lead drop-cap" th:text="${post.BriefDescription}">this p tag for post body.</p>                 
+                    <p>
+                    <img th:src="@{'/blogimages/' + ${post.imageUrl}}"
+                         sizes="(max-width: 2000px) 100vw, 2000px" alt="">
+                    </p>  
+                    <p th:utext="${post.Body}">bog body.</p>
+                  <!--   <blockquote></blockquote> -->
+                  
+                   <p class="blog-content__tags">
+		                        <span>Article Tags</span>	    
+		                        <span class="blog-content__tag-list" th:each="c:${category}">
+		                            <a th:href="${'/blogbycategory/' +c.id}" th:text="${c.Description}">blog category here</a>		                          
+		                        </span>    
+		              </p>
+                  
+                </div><!-- end blog-content__main -->
+            </div> <!-- end blog-content -->
+
+        </div> <!-- end blog-content-wrap -->
+    </article> <!-- end article(blog-single) -->
+
+    <!-- blog nav
+    ================================================== -->
+    <div class="blog-single-nav-wrap">
+        <div class="row blog-single-nav">
+            <div class="col-six blog-single-nav__prev" th:each="post:${prevposts}">
+                <a rel="prev" th:href="${'/blogdetail/' + post.id}">
+                    <span><< Prev</span>
+               <b>  <span th:text="${post.title}">previous post</span></b>
+                </a>
+            </div>
+            <div class="col-six blog-single-nav__next" th:each="post:${nexposts}">
+                <a  rel="next" th:href="${'/blogdetail/' + post.id}">
+                    <span>Next>></span>
+                 <b>  <span th:text="${post.title}">next post</span></b> 
+                </a>
+            </div>
+        </div>
+    </div> <!-- end blog-single-nav-wrap-->
+    <!-- comments
+    ================================================== -->
+    <div class="comments-wrap">
+		<!--<h3>${CommentsCont}</h3>  -->
+        <div id="comments" class="row" th:each="c:${comments}">
+            <div class="col-full">                     
+                        <div class="comment__content">
+								
+								<div class="comment__avatar">
+                                   <img class="avatar" src="/images/avatars/user-01.jpg" alt="" width="50" height="50">
+                               </div>
+                              
+                            <div class="comment__info">
+                                                          
+                                <div class="comment__author" th:text="${c.UserName}">Mg Kyaing</div>
+
+                                <div class="comment__meta">
+                                    <div class="comment__time">Sept 11, 2018</div>
+                                    <div class="comment__email">
+                                        <a href="#0" th:text="${c.Email}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment__text" >
+                            <p th:text="${c.Comment}"></p>
+                            </div>
+                        </div>
+
+                <!-- END comment list -->
+
+            </div> <!-- end col-full -->
+        </div> <!-- end comments -->
+
+
+        <div class="row comment-respond">
+
+            <!-- START respond -->
+            <div id="respond" class="col-full">
+
+                <h3>Add Comment <span>Your email address will not be published</span></h3>
+
+                <form th:action="@{/blogdetail/comment}" th:object="${CommentInPost}" method="post" action="" autocomplete="off" modelAttribute="CommentInPost">
+              
+              <fieldset>
+                        <div class="form-field">
+                            <input  th:field="*{UserName}" class="full-width" placeholder="Your Name" value="" type="text" required="required">
+                        </div>
+
+                        <div class="form-field">
+                            <input  th:field="*{Email}" class="full-width" placeholder="Your Email" value="" type="text" required="required">
+                        </div>
+
+                        <div class="form-field">
+                            <input  th:field="*{WebSite}" class="full-width" placeholder="Website" value="" type="text">
+                        </div>
+
+                        <div class="message form-field">
+                            <textarea  th:field="*{Comment}" class="full-width" placeholder="Your Message" required="required"></textarea>
+                        </div>
+
+                        <input name="submit" id="submit" class="btn btn--primary btn-wide btn--large full-width" value="Add Comment" type="submit">
+
+                    </fieldset>
+                </form> <!-- end form -->
+
+            </div>
+            <!-- END respond-->
+
+        </div> <!-- end comment-respond -->
+
+    </div> <!-- end comments-wrap -->
+
+    <!-- footer
+    ================================================== -->
+    <footer class="s-footer footer">
+        <div class="row footer__top">
+            <div class="col-six md-full">
+                <h1 class="display-2">
+                    Let's Stay In Touch.
+                </h1>
+                <p class="lead">
+                    Subscribe for updates, special offers and more.
+                </p>
+            </div>
+            <div class="col-six md-full footer__subscribe end">
+                <div class="subscribe-form">
+                    <form id="mc-form" class="group" novalidate="true">
+                        <input type="email" value="" name="EMAIL" class="email" id="mc-email" placeholder="Email Address" required="">         
+                        <input type="submit" name="subscribe" value="Sign Up">         
+                        <label for="mc-email" class="subscribe-message"></label>            
+                    </form>
+                </div>
+            </div>
+        </div> <!-- end footer__top -->
+
+        <div class="row footer__bottom">
+            <div class="col-five tab-full">
+                <div class="footer__logo">
+                    <a th:href="@{/}">
+                       <!--  <img src="images/logo.svg" alt="Homepage"> -->
+                        <font color="white" font-family="Segoe UI Symbol"><b>ProDev IT Solutions</b></font> 
+                    </a>
+                </div>
+                
+  			<blockquote>
+                <p style="color:white">
+              Believe nothing, no matter where you read it or who say it, unless it agrees with your own reason and common sense(Buddha).
+             </p>
+             </blockquote>
+             	<ul class="footer__social">
+                    <li><a href="https://www.facebook.com/akog02" target="_blank"><i class="fab fa-facebook-f" aria-hidden="true" ></i></a></li>
+                    <li><a href="https://twitter.com/MgKyaingMinSoe" target="_blank"><i class="fab fa-twitter" aria-hidden="true" ></i></a></li>
+                    <li><a href="https://plus.google.com/u/0/+MaungKyaing" target="_blank"><i class="fab fa-google-plus" aria-hidden="true" ></i></a></li>
+					 <li><a href="https://www.linkedin.com/in/mg-kyaing/" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                     <li><a href="https://github.com/MgKyiang" target="_blank"><i class="fab fa-github" aria-hidden="true"></i></a></li>                
+                </ul>       
+               
+            </div>
+
+            <div class="col-six tab-full end">
+                  <ul class="footer__site-links">
+                    <li><a class="smoothscroll" th:href="@{/blog/#home}"  title="intro">What's ProDev?</a></li>
+                    <li><a class="smoothscroll" th:href="@{/blog/#about}"  title="Who'm I?">Who'm I?</a></li>
+                    <li><a class="smoothscroll" th:href="@{/blog/#features}" title="features">Features</a></li>
+                    <li><a class="smoothscroll" th:href="@{/blog/#pricing}" title="pricing">Pricing</a></li>               
+                    <li><a th:href="@{/blog}" title="blog">Blog</a></li>	
+                </ul>
+
+                <p class="footer__contact">
+                    Do you have a question? Send us a word: <br>
+                    <a href="mailto:#0" class="footer__mail-link">akog02@gmail.com</a>
+                </p>
+
+                <div class="cl-copyright">
+                    <span>
+			Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+</span>
+                </div>
+            </div>
+
+        </div> <!-- end footer__bottom -->
+
+        <div class="go-top">
+            <a class="smoothscroll" title="Back to Top" href="#top"></a>
+        </div>
+
+    </footer> <!-- end s-footer -->
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/plugins.js"></script>
+    <script src="/js/main.js"></script>
+</body>

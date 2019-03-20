@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>POS</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <div th:if="${not #lists.isEmpty(contactusdata)}">
+        <h2>contact List</h2>
+          <a href="#" th:href="@{/contactus/new}">Create contact Us</a>
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Message</th>
+                <th>Phone</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="contactus:${contactusdata}">
+                <td th:text="${contactus.id}"><a href="/contactus/${contactus.id}">Id</a></td>
+                <td th:text="${contactus.Name}">Name</td>
+                <td th:text="${contactus.Message}">Message</td>
+                   <td th:text="${contactus.phone}">Phone</td>
+                <td><a th:href="${'/contactus/edit/' +contactus.id}">Edit</a></td>
+                <td><a th:href="${'/contactus/delete/' + contactus.id}">Delete</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
